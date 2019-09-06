@@ -17,31 +17,27 @@
 /////////////////////////////////////////////////////////////////////
 
 let viewer;
-let viewable;
+
+const options = {
+  env: 'AutodeskProduction',
+  getAccessToken: getForgeToken
+};
+
+Autodesk.Viewing.Initializer(options, () => {});
 
 function launchViewer(urn) {
-  if (!viewer) {
-    const options = {
-      env: 'AutodeskProduction',
-      getAccessToken: getForgeToken
-    };
-    Autodesk.Viewing.Initializer(options, () => {
-      viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'));
-      viewer.start();
-      const documentId = 'urn:' + urn;
-      Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
-    });
-  } else {
-    const documentId = 'urn:' + urn;
-    Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+  if (viewer) {
+    viewer.finish();
+    viewer = null;
   }
+  viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'));
+  viewer.start();
+  const documentId = 'urn:' + urn;
+  Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
 }
 
 function onDocumentLoadSuccess(doc) {
-  if (viewable) {
-    viewer.unloadDocumentNode(viewable);
-  }
-  viewable = doc.getRoot().getDefaultGeometry();
+  const viewable = doc.getRoot().getDefaultGeometry();
   viewer.loadDocumentNode(doc, viewable);
 }
 
