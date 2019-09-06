@@ -4,6 +4,7 @@ class BackgroundToggleExtension extends Autodesk.Viewing.Extension {
     }
 
     load() {
+        window.addEventListener('keypress', this.onKeyPress.bind(this));
         console.log('BackgroundToggleExtension loaded.');
         return true;
     }
@@ -11,6 +12,12 @@ class BackgroundToggleExtension extends Autodesk.Viewing.Extension {
     unload() {
         console.log('BackgroundToggleExtension unloaded.');
         return true;
+    }
+
+    onKeyPress(ev) {
+        if (/^\d$/.test(ev.key)) {
+            this.viewer.setLightPreset(parseInt(ev.key));
+        }
     }
 }
 
