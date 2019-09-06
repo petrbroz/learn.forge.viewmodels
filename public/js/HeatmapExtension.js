@@ -20,9 +20,16 @@ class HeatmapExtension extends Autodesk.Viewing.Extension {
             this.viewer.toolbar.addControl(this._group);
         }
 
+        this._enabled = false;
         this._button = new Autodesk.Viewing.UI.Button('heatmapButton');
-        this._button.onClick = (ev) => {
-            alert('Hello World!');
+        this._button.onClick = async (ev) => {
+            this._enabled = !this._enabled;
+            if (this._enabled) {
+                const ids = await this.getLeafNodes();
+                this.colorNodes(ids);
+            } else {
+                this.viewer.clearThemingColors();
+            }
         };
         this._button.setToolTip('Heatmap');
         this._button.addClass('heatmapButtonIcon');
