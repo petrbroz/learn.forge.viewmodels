@@ -42,6 +42,20 @@ class HeatmapExtension extends Autodesk.Viewing.Extension {
             });
         });
     }
+
+    colorNodes(ids) {
+        const filterProps = ['Area'];
+        const MaxArea = 100.0;
+        this.viewer.model.getBulkProperties(ids, filterProps, (items) => {
+            for (const item of items) {
+                const areaProp = item.properties[0];
+                const normalizedArea = Math.min(1.0, parseFloat(areaProp.displayValue) / MaxArea);
+                const color = new THREE.Color();
+                color.setHSL(normalizedArea * 0.33, 1.0, 0.5);
+                this.viewer.setThemingColor(item.dbId, new THREE.Vector4(color.r, color.g, color.b, 0.5));
+            }
+        });
+    }
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(
