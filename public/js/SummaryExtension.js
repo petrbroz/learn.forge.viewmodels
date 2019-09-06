@@ -4,6 +4,7 @@ class SummaryExtension extends Autodesk.Viewing.Extension {
     }
 
     load() {
+        this._panel = new SummaryPanel(this.viewer.container, 'summaryPanel', 'Summary Panel');
         console.log('SummaryExtension loaded.');
         return true;
     }
@@ -22,7 +23,7 @@ class SummaryExtension extends Autodesk.Viewing.Extension {
 
         this._button = new Autodesk.Viewing.UI.Button('summaryButton');
         this._button.onClick = async (ev) => {
-            alert('Hello World!');
+            this._panel.setVisible(!this._panel.isVisible());
         };
         this._button.setToolTip('Summary');
         this._button.addClass('summaryButtonIcon');
