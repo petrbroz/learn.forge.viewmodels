@@ -30,5 +30,11 @@ class SummaryExtension extends Autodesk.Viewing.Extension {
     }
 }
 
+class SummaryPanel extends Autodesk.Viewing.UI.PropertyPanel {
+    constructor(container, id, title, options) {
+        super(container, id, title, options);
+    }
+}
+
 Autodesk.Viewing.theExtensionManager.registerExtension(
     'SummaryExtension', SummaryExtension);
