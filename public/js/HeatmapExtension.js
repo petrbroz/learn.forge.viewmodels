@@ -28,6 +28,20 @@ class HeatmapExtension extends Autodesk.Viewing.Extension {
         this._button.addClass('heatmapButtonIcon');
         this._group.addControl(this._button);
     }
+
+    getLeafNodes() {
+        return new Promise((resolve, reject) => {
+            this.viewer.getObjectTree((tree) => {
+                let dbids = [];
+                tree.enumNodeChildren(tree.getRootId(), (dbid) => {
+                    if (tree.getChildCount(dbid) === 0) {
+                        dbids.push(dbid);
+                    }
+                }, true);
+                resolve(dbids);
+            });
+        });
+    }
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(
