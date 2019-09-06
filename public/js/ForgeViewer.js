@@ -26,7 +26,7 @@ function launchViewer(urn) {
 
   Autodesk.Viewing.Initializer(options, () => {
     const config = {
-      extensions: ['BackgroundToggleExtension']
+      extensions: ['BackgroundToggleExtension', 'HeatmapExtension']
     };
     viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'), config);
     viewer.start();
