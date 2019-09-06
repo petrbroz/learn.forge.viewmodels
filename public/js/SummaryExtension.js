@@ -12,6 +12,22 @@ class SummaryExtension extends Autodesk.Viewing.Extension {
         console.log('SummaryExtension unloaded.');
         return true;
     }
+
+    onToolbarCreated() {
+        this._group = this.viewer.toolbar.getControl('myToolbarGroup');
+        if (!this._group) {
+            this._group = new Autodesk.Viewing.UI.ControlGroup('myToolbarGroup');
+            this.viewer.toolbar.addControl(this._group);
+        }
+
+        this._button = new Autodesk.Viewing.UI.Button('summaryButton');
+        this._button.onClick = async (ev) => {
+            alert('Hello World!');
+        };
+        this._button.setToolTip('Summary');
+        this._button.addClass('summaryButtonIcon');
+        this._group.addControl(this._button);
+    }
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(
